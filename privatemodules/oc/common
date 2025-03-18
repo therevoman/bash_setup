@@ -1,0 +1,30 @@
+#%Module1.0#####################################################################
+##
+## oc modulefile
+##
+proc ModulesHelp { } {
+        puts stderr "\toc - loads the oc environment variables"
+        puts stderr "\n\tVersion $version\n"
+}
+
+module-whatis	"loads the oc command environment"
+
+# for Tcl script use only
+#set	version		4.7.0
+#set	oc_path		[pwd]/bin
+#set	kubeconfig_path	[pwd]/ocp/auth/kubeconfig
+
+#if {[info exists $history_file]} {
+	puts stderr "Overwriting HISTFILE to: $history_file\n"
+	setenv		HISTFILE	$history_file
+# `puts stdout` pushes this string as a command to be run once modulefile is finished with its shiz
+	puts stdout "fc -p $history_file" 
+#}
+if {[info exists $new_path]} {
+	puts stderr "Prepending path with: $new_path\n"
+	prepend-path    PATH   		$new_path
+}
+
+
+# enable module versioning modulepath
+#module use /usr/share/Modules/versions

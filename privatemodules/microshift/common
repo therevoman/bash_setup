@@ -1,0 +1,18 @@
+#%Module1.0#####################################################################
+##
+## oc modulefile
+##
+
+# for Tcl script use only
+set     moduledir       [file dirname $ModulesCurrentModulefile]
+
+proc ModulesHelp { } {
+        puts stderr "\tmicroshift - loads the microshift environment variables"
+        puts stderr "\n\tVersion $version\n"
+}
+
+module-whatis	"loads the microshift command environment"
+
+
+# enable module versioning modulepath
+#module use /usr/share/Modules/versions
