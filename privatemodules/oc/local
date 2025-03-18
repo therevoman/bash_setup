@@ -1,0 +1,53 @@
+#%Module1.0#####################################################################
+##
+## oc modulefile - uses local files
+##
+
+# for Tcl script use only
+set     moduledir       [file dirname $ModulesCurrentModulefile]
+set     version         local
+set     new_path        [pwd]/bin
+set     kubeconfig_path [pwd]/ocp/auth/kubeconfig
+
+#puts stderr "shell is [module-info shell]"
+switch -- [module-info shell] {
+    zsh {
+	set     history_file    [pwd]/.zsh_history
+    } bash {
+	set     history_file    [pwd]/.bash_history
+    }
+}
+
+if {[file exists "[pwd]/.aws"]} {
+	puts stderr "Using custom .aws folder"
+	if { [file exist "[pwd]/.aws/profile"] } {
+                # read contents of .aws/profile, needs to be single line no carriage returns
+                set fl [open [pwd]/.aws/profile]
+                set aws_profile [read $fl]
+                close $fl
+
+                puts stderr "Using aws profile: $aws_profile"
+                pushenv  AWS_PROFILE                     $aws_profile
+        }
+	if { [file exist "[pwd]/.aws/config"] } {
+                puts stderr "Using custom .aws/config"
+                pushenv  AWS_CONFIG_FILE                 [pwd]/.aws/config 
+        }
+	if { [file exist "[pwd]/.aws/credentials"] } {
+                puts stderr "Using custom .aws/credentials"
+                pushenv  AWS_SHARED_CREDENTIALS_FILE     [pwd]/.aws/credentials
+	}
+}
+
+pushenv		KUBECONFIG	$kubeconfig_path
+prepend-path	PATH   		$new_path
+#source-sh bash eval "$(./bin/openshift-install completion bash)"
+#source-sh bash eval "$(./bin/openshift-install completion bash)"
+if {[file exist [pwd]/bin/openshift-stuffs.sh]} {
+puts stderr "Custom openshift script exists: [file exist [pwd]/bin/openshift-stuffs.sh]"
+	#source-sh bash [pwd]/bin/openshift-stuffs.sh
+	puts stdout bin/openshift-stuffs.sh
+}
+
+
+source $moduledir/common

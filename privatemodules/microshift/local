@@ -1,0 +1,22 @@
+#%Module1.0#####################################################################
+##
+## oc modulefile - uses local files
+##
+
+# for Tcl script use only
+set     moduledir       [file dirname $ModulesCurrentModulefile]
+set     modulesdir      [file dirname $ModulesCurrentModulefile/../]
+set     version         local
+
+if { [file exist "[pwd]/.project_name"] } {
+        # read contents of .envvars, needs to be single line no carriage returns
+        set fl [open [pwd]/.project_name]
+        set project_name [read $fl]
+        close $fl
+
+        puts stderr "Setting PROJECT_NAME envvar to $project_name"
+        pushenv  PROJECT_NAME                     $project_name
+}
+
+source $moduledir/../oc/local
+source $moduledir/common
