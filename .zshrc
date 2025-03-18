@@ -120,27 +120,6 @@ fi
 #
 #alias oc='bin/oc --kubeconfig=ocp/auth/kubeconfig '
 alias ip="ip -c"
-alias esxi1power="ipmitool -I lanplus -U admin -P <password> -H esxi1-mgmt.revoweb.home chassis power" # notsecret
-# create notepad alias
-alias notepad='/mnt/c/Program\ Files/TextPad\ 8/TextPad.exe -s'
-#alias toocp='cd /opt/projects/ocp4'
-alias ocfindall=' oc api-resources --verbs=list --namespaced -o name | egrep -v "packagemanifests.packages.operators.coreos.com|events" | xargs -n 1 -I {} bash -c "oc get --show-kind --ignore-not-found -n $1 {}"'
-
-
-# start vcenter
-alias startvcenter='ipmitool -I lanplus -U admin -P <password> -H esxi3-mgmt.revoweb.home chassis power on'  # notsecret
-
-# start sno nodes
-alias startsnok="ipmitool -I lanplus -U admin -P <password> -H snok-mgmt.revoweb.home chassis power on" # notsecret
-alias stopsnowest='ssh -i ~/.ssh/id_rsa_openshift core@192.168.50.54 sudo shutdown +1'
-alias stopsnoeast='ssh -i ~/.ssh/id_rsa_openshift core@192.168.50.53 sudo shutdown +1'
-alias stopsnofast='ssh -i ~/.ssh/id_rsa_openshift core@192.168.50.52 sudo shutdown +1'
-alias stopocs='ssh -i ~/.ssh/id_rsa_openshift core@192.168.54.251 sudo shutdown +1;ssh -i ~/.ssh/id_rsa_openshift core@192.168.54.252 sudo shutdown +1;ssh -i ~/.ssh/id_rsa_openshift core@192.168.54.253 sudo shutdown +1'
-
-# OpenShift aliases
-alias approvecsronce="oc get csr -o go-template='{{range .items}}{{if not .status}}{{.metadata.name}}{{\"\\n\"}}{{end}}{{end}}' | xargs oc adm certificate approve"
-alias approvecsr="approvecsronce; sleep .1; approvecsronce"
-alias deletecomplete="oc get po -A -o wide | grep -Ei \"complete\" | awk '{print \"oc -n \" $1 \" delete po \" $2}' | xargs -L1 -I {} bash -c \"echo {}; {}\""
 
 
 # change history settings
